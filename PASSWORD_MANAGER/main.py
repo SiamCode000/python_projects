@@ -7,8 +7,6 @@ def view():
                 print("User:", user, "| Password:", pwd)
             else:
                 print(line.strip())
-
-
 def add():
     acc = input("Enter account name: ")
     passw = input("Enter the password: ")
