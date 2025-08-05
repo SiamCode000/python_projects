@@ -1,6 +1,7 @@
 import curses
 from curses import wrapper
 import time
+import random
 def start_screen(stdscr):
     stdscr.clear()
     stdscr.addstr("Welcome to The typing test Game!")
@@ -19,9 +20,14 @@ def show_text(stdscr,target,current,wpm=0):
             color = curses.color_pair(2)
         stdscr.addstr(0,i, char,color)
 
+def load_text():
+    with open("text.txt","r") as f:
+        lines = f.readlines()
+    return random.choice(lines)
+
 
 def wpm_test(stdscr):
-    target_text = "Despite the labyrinthine complexity of the bureaucratic system, the esoteric documentation remained obfuscated."
+    target_text = load_text()
     current_text = []
     wpm = 0
     start_Time = time.time()
@@ -58,6 +64,11 @@ def main(stdscr):
     curses.init_pair(1,curses.COLOR_GREEN,curses.COLOR_BLACK)
     curses.init_pair(2,curses.COLOR_RED,curses.COLOR_BLACK)
     start_screen(stdscr)
-    wpm_test(stdscr)
+    while  True:
+        wpm_test(stdscr)
+        stdscr.addstr(2,0,"press any key to continue")
+        key = stdscr.getkey()
+        if ord(key) == 27:
+            break
 
 wrapper(main)
